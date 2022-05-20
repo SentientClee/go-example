@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  example:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000/tcp # gRPC
+      - 8080:8080/tcp # HTTP
+    environment:
+      - GRPC_LISTEN_HOST=0.0.0.0
+      - GRPC_LISTEN_PORT=8000
+      - HTTP_LISTEN_ADDR=0.0.0.0:8080
+    volumes:
+      - ~/Projects/github.com/timstudd/go-example/go.mod:/srv/go.mod:cached
+      - ~/Projects/github.com/timstudd/go-example/go.sum:/srv/go.sum:cached
+      - ~/Projects/github.com/timstudd/go-example/generated:/srv/generated:cached
+      - ~/Projects/github.com/timstudd/go-example/lib:/srv/lib:cached
+      - ~/Projects/github.com/timstudd/go-example/services/example:/srv/services/example:consistent
+    working_dir: /srv/services/example
+    command: sh -c "go get github.com/pilu/fresh && fresh"

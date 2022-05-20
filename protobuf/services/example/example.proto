@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package example;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.com/timstudd/go-example/go/protobuf/services/example";
+
+service Example {
+  rpc Echo(EchoRequest) returns (EchoResponse) {
+    option (google.api.http) = {
+      get: "/v1/echo"
+    };
+  }
+}
+
+message EmptyRequest {}
+
+message EmptyResponse {}
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoResponse {
+  uint32 current_time = 1;
+  string message = 2;
+}
